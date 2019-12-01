@@ -66,20 +66,20 @@ if($length==0){
 	$valaminemjo=true;
 }else{
 	
-	$stid = oci_parse($conn, 'SELECT NEV FROM KONYV');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT NEV FROM KONYV');
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item==$cim1){
 			$vancim=true;
 		}
     }
 }
-$stid = oci_parse($conn, 'SELECT SZERZO_ID FROM KONYV');
-	oci_execute($stid);
+$stid = odbc_exec($conn, 'SELECT SZERZO_ID FROM KONYV');
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item==$szerzoid1){
 			$vanszerzo=true;
@@ -95,11 +95,11 @@ if($vancim AND $vanszerzo){
 if(!$letezik){
 	
 	if(!$valaminemjo){
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM KONYV');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM KONYV');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -108,17 +108,17 @@ if(!$letezik){
 	//AUTO_INCREMENT
 	
 	
-	$stid = oci_parse($conn, "INSERT INTO KONYV (KONYV_ID, NEV, KIADAS, KIADO_ID, SZERZO_ID, TOMEG, OLDALSZAM, NYELV, LEIRAS, MUFAJ_ID, ALMUFAJ_ID, EKONYVE, AR) VALUES (".$maxid.", '".$cim1."', '".$ev1."', ".$kiadoid1.", ".$szerzoid1.", ".$tomeg1.", ".$oldalszam1.", '".$nyelv1."', '".$leiras1."', ".$mufajid1.", ".$almufajid1.", ".$ekony1.", ".$ar1.")");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "INSERT INTO KONYV (KONYV_ID, NEV, KIADAS, KIADO_ID, SZERZO_ID, TOMEG, OLDALSZAM, NYELV, LEIRAS, MUFAJ_ID, ALMUFAJ_ID, EKONYVE, AR) VALUES (".$maxid.", '".$cim1."', '".$ev1."', ".$kiadoid1.", ".$szerzoid1.", ".$tomeg1.", ".$oldalszam1.", '".$nyelv1."', '".$leiras1."', ".$mufajid1.", ".$almufajid1.", ".$ekony1.", ".$ar1.")");
+	
 	}
 }else{
 	echo'Már létezik ilyen című könyv ezzel a szerzővel!';
 }
 
 
-$stid = oci_parse($conn, 'SELECT COUNT(*) FROM ITEM');
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM ITEM');
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxitemid=$item;
     }
@@ -126,8 +126,8 @@ $stid = oci_parse($conn, 'SELECT COUNT(*) FROM ITEM');
 	$maxitemid=$maxitemid+1;
 	//AUTO_INCREMENT
 
-	$stid = oci_parse($conn, "INSERT INTO ITEM (ITEM_ID, KONYV_ID, ZENE_ID, FILM_ID) VALUES (".$maxitemid.", ".$maxid.", null, null)");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "INSERT INTO ITEM (ITEM_ID, KONYV_ID, ZENE_ID, FILM_ID) VALUES (".$maxitemid.", ".$maxid.", null, null)");
+	
 	
 }
 $target_dir = "pictures/konyv/";

@@ -41,10 +41,10 @@ if(isset($_POST["beirt2"])){
 	$beirt=$_POST["beirt2"];
 	$ker2=$_POST["ker2"];
 	if($ker2=="ZENE"){
-		$stid = oci_parse($conn, "SELECT ZENE.ZENE_ID, ZENE.NEV AS Név, KONYVKIADO.NEV AS Kiadó, ZENE.AR AS Ár FROM ZENE, KONYVKIADO WHERE UPPER(ZENE.NEV) LIKE UPPER('%".$beirt."%') AND ZENE.KIADO_ID=KONYVKIADO.KIADO_ID");
+		$stid = odbc_exec($conn, "SELECT ZENE.ZENE_ID, ZENE.NEV AS Név, KONYVKIADO.NEV AS Kiadó, ZENE.AR AS Ár FROM ZENE, KONYVKIADO WHERE UPPER(ZENE.NEV) LIKE UPPER('%".$beirt."%') AND ZENE.KIADO_ID=KONYVKIADO.KIADO_ID");
 		$redundancia="z";
 	}elseif($ker2=="FILM"){
-		$stid = oci_parse($conn, "SELECT FILM.FILM_ID, FILM.NEV AS Név, KONYVKIADO.NEV AS Kiadó, FILM.HOSSZ AS Hossz, FILM.AR AS Ár FROM FILM, KONYVKIADO WHERE UPPER(FILM.NEV) LIKE UPPER('%".$beirt."%') AND FILM.KIADO_ID=KONYVKIADO.KIADO_ID");
+		$stid = odbc_exec($conn, "SELECT FILM.FILM_ID, FILM.NEV AS Név, KONYVKIADO.NEV AS Kiadó, FILM.HOSSZ AS Hossz, FILM.AR AS Ár FROM FILM, KONYVKIADO WHERE UPPER(FILM.NEV) LIKE UPPER('%".$beirt."%') AND FILM.KIADO_ID=KONYVKIADO.KIADO_ID");
 		$redundancia="f";
 	}
 	
@@ -53,25 +53,25 @@ if(isset($_POST["beirt2"])){
 
 if(isset($_POST["beirt"]) AND isset($_POST["ker"])){
 if($ker=="KIADAS" OR $ker=="NEV"){
-$stid = oci_parse($conn, "".$selecthumor."WHERE UPPER(KONYV.".$ker.") LIKE UPPER('%".$beirt."%') AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
+$stid = odbc_exec($conn, "".$selecthumor."WHERE UPPER(KONYV.".$ker.") LIKE UPPER('%".$beirt."%') AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
 }else if($ker=="SZERZO"){
 	if($beirt==""){
 		$beirt="Horváth Júlia";
 	}
-$stid = oci_parse($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID=(SELECT SZERZO_ID FROM SZERZO WHERE UPPER(NEV) LIKE UPPER('%".$beirt."%')) AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID");
+$stid = odbc_exec($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID=(SELECT SZERZO_ID FROM SZERZO WHERE UPPER(NEV) LIKE UPPER('%".$beirt."%')) AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID");
 }
 }
 if(isset($_POST["szerzonev"])){
-	$stid = oci_parse($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID='".$szerzonev."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
+	$stid = odbc_exec($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID='".$szerzonev."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
 }
 if(isset($_POST["mufaj"])){
-	$stid = oci_parse($conn, "".$selecthumor."WHERE KONYV.MUFAJ_ID='".$mufaj."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
+	$stid = odbc_exec($conn, "".$selecthumor."WHERE KONYV.MUFAJ_ID='".$mufaj."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
 }
 
 
 if(isset($_POST["ker"]) OR isset($_POST["mufaj"]) OR isset($_POST["szerzonev"])){
 
-oci_execute($stid);
+
 $nfields = oci_num_fields($stid);
 echo '<tr>';
 for ($i = 1; $i<=$nfields; $i++){
@@ -83,11 +83,11 @@ for ($i = 1; $i<=$nfields; $i++){
 	
 }
 echo '</tr>';
-oci_execute($stid);
+
 $szamlalo=1;
 $indexszamlalo=1;
 echo'<form action="konyvmegjelenites.php" method="post">';
-while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+while ( $row = odbc_fetch_array($stid)) {
     echo '<tr>';
     foreach ($row as $item) {
 		if($szamlalo==1){
@@ -110,7 +110,7 @@ echo '</form>';
 echo '</table>';
 }else{
 
-oci_execute($stid);
+
 $nfields = oci_num_fields($stid);
 echo '<tr>';
 for ($i = 1; $i<=$nfields; $i++){
@@ -122,13 +122,13 @@ for ($i = 1; $i<=$nfields; $i++){
 	
 }
 echo '</tr>';
-oci_execute($stid);
+
 $szamlalo=1;
 $indexszamlalo=1;
 
 
 echo'<form action="fzmegjelenites.php" method="post">';
-while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+while ( $row = odbc_fetch_array($stid)) {
     echo '<tr>';
     foreach ($row as $item) {
 		if($szamlalo==1){

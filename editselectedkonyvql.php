@@ -21,7 +21,7 @@ if(isset($_POST['ekonyv'])){
 	$ekony1=0;
 }
 
-	$stid = oci_parse($conn, "UPDATE KONYV
+	$stid = odbc_exec($conn, "UPDATE KONYV
 	SET NEV = '".$cim1."',
 	KIADAS = '".$ev1."',
 	KIADO_ID = ".$kiadoid1.",
@@ -36,7 +36,7 @@ if(isset($_POST['ekonyv'])){
 	EKONYVE =".$ekony1."
 	
 	WHERE KONYV_ID=".$id."");
-	oci_execute($stid);
+	
 
 header('Location: index.php');
 

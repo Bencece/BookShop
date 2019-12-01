@@ -2,11 +2,11 @@
 include 'connection.php';
 
 
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM FELHASZNALO');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM FELHASZNALO');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -78,10 +78,10 @@ if($valaminemjo==false){
 	
 	
 	
-$stid = oci_parse($conn, "INSERT INTO felhasznalo (Felhasznalo_ID, Nev, Lakcim, Torzsvasarlo, Admine, Idaigvasarolt, Felhasznalonev, Jelszo, Email) VALUES
+$stid = odbc_exec($conn, "INSERT INTO felhasznalo (Felhasznalo_ID, Nev, Lakcim, Torzsvasarlo, Admine, Idaigvasarolt, Felhasznalonev, Jelszo, Email) VALUES
 (".$maxid.", '".$nev1."', '".$lcim1."', 0, 0, 0, '".$felnev1."', '".$shajelszo."', '".$email1."')");
 
-$siker=oci_execute($stid);
+$siker=
 if($siker){
 	header ('Location: index.php?sikeresreg=true');
 }else{

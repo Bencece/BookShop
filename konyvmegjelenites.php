@@ -22,10 +22,10 @@ $id=$_POST["konyv"];
 
 $scuccok;   
 
-   $stid = oci_parse($conn, "SELECT NEV,KIADAS,TOMEG,OLDALSZAM,AR,LEIRAS,NYELV,EKONYVE,KIADO_ID,SZERZO_ID,MUFAJ_ID,ALMUFAJ_ID FROM KONYV WHERE KONYV_ID=".$id."");
-	oci_execute($stid);
+   $stid = odbc_exec($conn, "SELECT NEV,KIADAS,TOMEG,OLDALSZAM,AR,LEIRAS,NYELV,EKONYVE,KIADO_ID,SZERZO_ID,MUFAJ_ID,ALMUFAJ_ID FROM KONYV WHERE KONYV_ID=".$id."");
+	
  $szamlalo=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$scuccok[$szamlalo]=$item;
 		$szamlalo=$szamlalo+1;
@@ -39,32 +39,32 @@ if($scuccok[8]==1){
 	$scuccok[8]='Nem';
 }
 
-   $stid = oci_parse($conn, "SELECT NEV FROM SZERZO WHERE SZERZO_ID=".$scuccok[10]."");
-	oci_execute($stid);
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+   $stid = odbc_exec($conn, "SELECT NEV FROM SZERZO WHERE SZERZO_ID=".$scuccok[10]."");
+	
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$szerzonev=$item;
     }
  }
 
-  $stid = oci_parse($conn, "SELECT NEV FROM KONYVKIADO WHERE KIADO_ID=".$scuccok[9]."");
-	oci_execute($stid);
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+  $stid = odbc_exec($conn, "SELECT NEV FROM KONYVKIADO WHERE KIADO_ID=".$scuccok[9]."");
+	
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$kiadonev=$item;
     }
  }
  
- $stid = oci_parse($conn, "SELECT NEV FROM MUFAJ WHERE MUFAJ_ID=".$scuccok[11]."");
-	oci_execute($stid);
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ $stid = odbc_exec($conn, "SELECT NEV FROM MUFAJ WHERE MUFAJ_ID=".$scuccok[11]."");
+	
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$mufajnev=$item;
     }
  }
- $stid = oci_parse($conn, "SELECT NEV FROM ALMUFAJ WHERE ALMUFAJ_ID=".$scuccok[12]."");
-	oci_execute($stid);
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ $stid = odbc_exec($conn, "SELECT NEV FROM ALMUFAJ WHERE ALMUFAJ_ID=".$scuccok[12]."");
+	
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$almufajnev=$item;
     }
@@ -139,19 +139,19 @@ echo'
 	echo '</form>
 	';
 	}
-	$stid = oci_parse($conn, "SELECT ITEM.ITEM_ID FROM ITEM, KONYV WHERE ITEM.KONYV_ID=KONYV.KONYV_ID AND KONYV.KONYV_ID=".$id."");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT ITEM.ITEM_ID FROM ITEM, KONYV WHERE ITEM.KONYV_ID=KONYV.KONYV_ID AND KONYV.KONYV_ID=".$id."");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$itemid=$item;
     }
 	}
 if(isset($itemid)){
-$stid = oci_parse($conn, "SELECT KONYV.KONYV_ID FROM KONYV,ITEM,FELHASZNALO,VASAROLT WHERE KONYV.KONYV_ID=ITEM.KONYV_ID AND ITEM.ITEM_ID=VASAROLT.ITEM_ID AND FELHASZNALO.FELHASZNALO_ID=VASAROLT.FELHASZNALO_ID AND VASAROLT.FELHASZNALO_ID=(SELECT VASAROLT.FELHASZNALO_ID FROM VASAROLT WHERE VASAROLT.ITEM_ID=".$itemid." AND ROWNUM=1)");
-	oci_execute($stid);
+$stid = odbc_exec($conn, "SELECT KONYV.KONYV_ID FROM KONYV,ITEM,FELHASZNALO,VASAROLT WHERE KONYV.KONYV_ID=ITEM.KONYV_ID AND ITEM.ITEM_ID=VASAROLT.ITEM_ID AND FELHASZNALO.FELHASZNALO_ID=VASAROLT.FELHASZNALO_ID AND VASAROLT.FELHASZNALO_ID=(SELECT VASAROLT.FELHASZNALO_ID FROM VASAROLT WHERE VASAROLT.ITEM_ID=".$itemid." AND ROWNUM=1)");
+	
 	$tmp=true;
 	$tmp2=true;
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($tmp==true){
 			echo '<h2>Ezek is érdekelni fognak:</h2>

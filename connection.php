@@ -1,5 +1,4 @@
 <?php
-header('charset=utf-8');
 $serverName = "BENCE-DELL\\SQLEXPRESSNEW"; //serverName\instanceName
 $database = "master";
 $user = "";

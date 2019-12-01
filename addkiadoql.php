@@ -9,10 +9,10 @@ if($length==0){
 	echo 'Nem írtál be semmit!';
 }else{
 	
-	$stid = oci_parse($conn, 'SELECT NEV FROM KONYVKIADO');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT NEV FROM KONYVKIADO');
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item==$kiado1){
 			$letezik=true;
@@ -22,11 +22,11 @@ if($length==0){
 if(!$letezik){
 	
 	
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM KONYVKIADO');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM KONYVKIADO');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -35,8 +35,8 @@ if(!$letezik){
 	//AUTO_INCREMENT
 	
 	
-	$stid = oci_parse($conn, "INSERT INTO KONYVKIADO (KIADO_ID, NEV) VALUES (".$maxid.", '".$kiado1."')");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "INSERT INTO KONYVKIADO (KIADO_ID, NEV) VALUES (".$maxid.", '".$kiado1."')");
+	
 }else{
 	echo'Már létezik ilyen kiadó!';
 }

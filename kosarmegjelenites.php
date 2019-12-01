@@ -28,10 +28,10 @@ $osszar=0;
 echo 'Kosár tartalma: </br>';
 while($szamlalo<=$_COOKIE["hany"]){
 $index=0;	
-$stid = oci_parse($conn, "SELECT KONYV.NEV,KONYV.AR FROM KONYV,ITEM WHERE KONYV.KONYV_ID=ITEM.KONYV_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
+$stid = odbc_exec($conn, "SELECT KONYV.NEV,KONYV.AR FROM KONYV,ITEM WHERE KONYV.KONYV_ID=ITEM.KONYV_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
 
-oci_execute($stid);
-while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+
+while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($index==0){
 		echo 'Könyv:  '.$item;
@@ -43,10 +43,10 @@ while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
     }
  }
  
-$stid = oci_parse($conn, "SELECT ZENE.NEV,ZENE.AR FROM ZENE,ITEM WHERE ZENE.ZENE_ID=ITEM.ZENE_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
+$stid = odbc_exec($conn, "SELECT ZENE.NEV,ZENE.AR FROM ZENE,ITEM WHERE ZENE.ZENE_ID=ITEM.ZENE_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
 
-oci_execute($stid);
-while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+
+while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($index==0){
 		echo 'Zene:  '.$item;
@@ -58,10 +58,10 @@ while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
     }
  }
  
-$stid = oci_parse($conn, "SELECT FILM.NEV,FILM.AR FROM FILM,ITEM WHERE FILM.FILM_ID=ITEM.FILM_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
+$stid = odbc_exec($conn, "SELECT FILM.NEV,FILM.AR FROM FILM,ITEM WHERE FILM.FILM_ID=ITEM.FILM_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
 
-oci_execute($stid);
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($index==0){
 		echo 'Film:  '.$item;
@@ -83,11 +83,11 @@ echo '</br></br><form action="rendelesl2.php" method="post">
    
    echo '<select name=aruhazid>';
    
-    $stid = oci_parse($conn, 'SELECT NEV, HELYSEG FROM ARUHAZ');
-	oci_execute($stid);
+    $stid = odbc_exec($conn, 'SELECT NEV, HELYSEG FROM ARUHAZ');
+	
  $szamlalo=1;
  $index=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($index==1){
 		echo "<option value=".$szamlalo.">".$item;

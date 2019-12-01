@@ -5,11 +5,11 @@ include 'connection.php';
 $jo=0;
 if($rend=='kisz'){
 	
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM VASAROLT');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM VASAROLT');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -17,9 +17,9 @@ if($rend=='kisz'){
 	$maxid=$maxid+1;//AUTO_INCREMENT
 	$szamlalo=1;
 	$felhasznalo;
-	$stid = oci_parse($conn, "SELECT FELHASZNALO_ID,LAKCIM FROM FELHASZNALO WHERE FELHASZNALONEV='".$_COOKIE["felhasznalo"]."'");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT FELHASZNALO_ID,LAKCIM FROM FELHASZNALO WHERE FELHASZNALONEV='".$_COOKIE["felhasznalo"]."'");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$felhasznalo[$szamlalo]=$item;
 		$szamlalo=$szamlalo+1;
@@ -29,15 +29,15 @@ if($rend=='kisz'){
 	$szamlalo=1;
 	while($szamlalo<=$_COOKIE["hany"]){
 	$id=$_COOKIE["hany".$szamlalo.""];
-	$stid=oci_parse($conn, "UPDATE FELHASZNALO SET IDAIGVASAROLT=IDAIGVASAROLT+1 WHERE FELHASZNALO_ID=".$felhasznalo[1]."");
-	$asd=oci_execute($stid);
-	$stid = oci_parse($conn, "INSERT INTO VASAROLT (VASARLASID, FELHASZNALO_ID, ITEM_ID, ARUHAZ_ID, KISZALLITASICIM, BOLTBANVESZIAT) VALUES
+	$stid=odbc_exec($conn, "UPDATE FELHASZNALO SET IDAIGVASAROLT=IDAIGVASAROLT+1 WHERE FELHASZNALO_ID=".$felhasznalo[1]."");
+	$asd=
+	$stid = odbc_exec($conn, "INSERT INTO VASAROLT (VASARLASID, FELHASZNALO_ID, ITEM_ID, ARUHAZ_ID, KISZALLITASICIM, BOLTBANVESZIAT) VALUES
 (".$maxid.", '".$felhasznalo[1]."', '".$id."', 0, '".$felhasznalo[2]."', 0)");
 $szamlalo++;
 $maxid++;
-$siker=oci_execute($stid);
-$stid=oci_parse($conn, "INSERT INTO HISTORY(FELHASZNALO_ID, ITEM_ID) VALUES ('".$felhasznalo[1]."','".$id."')");
-oci_execute($stid);
+$siker=
+$stid=odbc_exec($conn, "INSERT INTO HISTORY(FELHASZNALO_ID, ITEM_ID) VALUES ('".$felhasznalo[1]."','".$id."')");
+
 	}
 if($siker){
 	echo 'Rendelését sikeresen feldolgoztuk!</br>
@@ -50,9 +50,9 @@ if($siker){
 }elseif($rend=="szem"){
 	$szamlalo=1;
 	while($szamlalo<=$_COOKIE["hany"]){
-	$stid = oci_parse($conn, "SELECT KESZLETENVAN FROM KAPHATO WHERE ITEM_ID='".$_COOKIE["hany".$szamlalo.""]."' AND ARUHAZ_ID=".$_POST["aruhazid"]."");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT KESZLETENVAN FROM KAPHATO WHERE ITEM_ID='".$_COOKIE["hany".$szamlalo.""]."' AND ARUHAZ_ID=".$_POST["aruhazid"]."");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$darabszam[$szamlalo]=$item;
     }
@@ -61,11 +61,11 @@ if($siker){
 	}
 	
 	
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM VASAROLT');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM VASAROLT');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -73,9 +73,9 @@ if($siker){
 	$maxid=$maxid+1;//AUTO_INCREMENT
 	$szamlalo=1;
 	$felhasznalo;
-	$stid = oci_parse($conn, "SELECT FELHASZNALO_ID,LAKCIM FROM FELHASZNALO WHERE FELHASZNALONEV='".$_COOKIE["felhasznalo"]."'");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT FELHASZNALO_ID,LAKCIM FROM FELHASZNALO WHERE FELHASZNALONEV='".$_COOKIE["felhasznalo"]."'");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$felhasznalo[$szamlalo]=$item;
 		$szamlalo=$szamlalo+1;
@@ -84,10 +84,10 @@ if($siker){
 	$szamlalo=1;
 	while($szamlalo<=$_COOKIE["hany"]){
 	$id=$_COOKIE["hany".$szamlalo.""];
-		$stid = oci_parse($conn, "SELECT KESZLETENVAN FROM KAPHATO WHERE ARUHAZ_ID=".$_POST["aruhazid"]." AND ITEM_ID=".$id."");
-oci_execute($stid);
+		$stid = odbc_exec($conn, "SELECT KESZLETENVAN FROM KAPHATO WHERE ARUHAZ_ID=".$_POST["aruhazid"]." AND ITEM_ID=".$id."");
 
-while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+
+while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$keszletenennyivan=$item;
     }
@@ -95,48 +95,48 @@ while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
 		if($keszletenennyivan>0){
 		
 	$id=$_COOKIE["hany".$szamlalo.""];
-	$stid=oci_parse($conn, "UPDATE FELHASZNALO SET IDAIGVASAROLT=IDAIGVASAROLT+1 WHERE FELHASZNALO_ID=".$felhasznalo[1]."");
-	$asd=oci_execute($stid);
-	$stid = oci_parse($conn, "INSERT INTO VASAROLT (VASARLASID, FELHASZNALO_ID, ITEM_ID, ARUHAZ_ID, KISZALLITASICIM, BOLTBANVESZIAT) VALUES
+	$stid=odbc_exec($conn, "UPDATE FELHASZNALO SET IDAIGVASAROLT=IDAIGVASAROLT+1 WHERE FELHASZNALO_ID=".$felhasznalo[1]."");
+	$asd=
+	$stid = odbc_exec($conn, "INSERT INTO VASAROLT (VASARLASID, FELHASZNALO_ID, ITEM_ID, ARUHAZ_ID, KISZALLITASICIM, BOLTBANVESZIAT) VALUES
 (".$maxid.", '".$felhasznalo[1]."', '".$id."', ".$_POST["aruhazid"].", '0', 1)");
 $maxid++;
-$siker=oci_execute($stid);
-$stid=oci_parse($conn, "INSERT INTO HISTORY(FELHASZNALO_ID, ITEM_ID) VALUES ('".$felhasznalo[1]."','".$id."')");
-oci_execute($stid);
+$siker=
+$stid=odbc_exec($conn, "INSERT INTO HISTORY(FELHASZNALO_ID, ITEM_ID) VALUES ('".$felhasznalo[1]."','".$id."')");
 
 
-$stid=oci_parse($conn, "UPDATE KAPHATO SET KESZLETENVAN=KESZLETENVAN-1 WHERE ARUHAZ_ID=".$_POST["aruhazid"]." AND ITEM_ID=".$id."");
-oci_execute($stid);
+
+$stid=odbc_exec($conn, "UPDATE KAPHATO SET KESZLETENVAN=KESZLETENVAN-1 WHERE ARUHAZ_ID=".$_POST["aruhazid"]." AND ITEM_ID=".$id."");
+
 $jo++;
 		}else{
 		echo 'Ebből a tárgyból nincs több ';
-	$stid = oci_parse($conn, "SELECT KONYV.NEV FROM KONYV,ITEM WHERE KONYV.KONYV_ID=ITEM.KONYV_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "SELECT KONYV.NEV FROM KONYV,ITEM WHERE KONYV.KONYV_ID=ITEM.KONYV_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
+	
 
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo $item;
     }
 	}
-	$stid = oci_parse($conn, "SELECT ZENE.NEV FROM ZENE,ITEM WHERE ZENE.ZENE_ID=ITEM.ZENE_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT ZENE.NEV FROM ZENE,ITEM WHERE ZENE.ZENE_ID=ITEM.ZENE_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo $item;
     }
 	}
-	$stid = oci_parse($conn, "SELECT FILM.NEV FROM FILM,ITEM WHERE FILM.FILM_ID=ITEM.FILM_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT FILM.NEV FROM FILM,ITEM WHERE FILM.FILM_ID=ITEM.FILM_ID AND ITEM.ITEM_ID=".$_COOKIE["hany".$szamlalo.""]."");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo $item;
     }
 	}
 		echo ' ebben az áruházban: ';
 		
-	$stid = oci_parse($conn, "SELECT NEV FROM ARUHAZ WHERE ARUHAZ_ID=".$_POST["aruhazid"]."");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT NEV FROM ARUHAZ WHERE ARUHAZ_ID=".$_POST["aruhazid"]."");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo $item.'</br>';
     }

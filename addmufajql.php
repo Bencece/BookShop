@@ -9,10 +9,10 @@ if($length==0){
 	echo 'Nem írtál be semmit!';
 }else{
 	
-	$stid = oci_parse($conn, 'SELECT NEV FROM MUFAJ');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT NEV FROM MUFAJ');
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item==$mufaj1){
 			$letezik=true;
@@ -22,11 +22,11 @@ if($length==0){
 if(!$letezik){
 	
 	
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM MUFAJ');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM MUFAJ');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -35,8 +35,8 @@ if(!$letezik){
 	//AUTO_INCREMENT
 	
 	
-	$stid = oci_parse($conn, "INSERT INTO MUFAJ (MUFAJ_ID, NEV) VALUES (".$maxid.", '".$mufaj1."')");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "INSERT INTO MUFAJ (MUFAJ_ID, NEV) VALUES (".$maxid.", '".$mufaj1."')");
+	
 }else{
 	echo'Már létezik ilyen műfaj!';
 }

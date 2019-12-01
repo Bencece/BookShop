@@ -25,15 +25,15 @@ $redundancia=substr($id, -1);
 $id=substr_replace($id, "", -1);
 
 if($redundancia=="z"){
-   $stid = oci_parse($conn, "SELECT ZENE.NEV AS Cím, KONYVKIADO.NEV AS Kiadó, ZENE.AR AS Ár FROM ZENE,KONYVKIADO WHERE ZENE_ID=".$id." AND KONYVKIADO.KIADO_ID=ZENE.KIADO_ID");
+   $stid = odbc_exec($conn, "SELECT ZENE.NEV AS Cím, KONYVKIADO.NEV AS Kiadó, ZENE.AR AS Ár FROM ZENE,KONYVKIADO WHERE ZENE_ID=".$id." AND KONYVKIADO.KIADO_ID=ZENE.KIADO_ID");
 }else{
-	$stid = oci_parse($conn, "SELECT FILM.NEV AS Cím, KONYVKIADO.NEV, FILM.AR, FILM.HOSSZ FROM FILM, KONYVKIADO WHERE FILM_ID=".$id." AND KONYVKIADO.KIADO_ID=FILM.KIADO_ID");
+	$stid = odbc_exec($conn, "SELECT FILM.NEV AS Cím, KONYVKIADO.NEV, FILM.AR, FILM.HOSSZ FROM FILM, KONYVKIADO WHERE FILM_ID=".$id." AND KONYVKIADO.KIADO_ID=FILM.KIADO_ID");
 }
 	
-	oci_execute($stid);
+	
 			
  $szamlalo=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$scuccok[$szamlalo]=$item;
 		$szamlalo=$szamlalo+1;

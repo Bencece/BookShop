@@ -23,10 +23,10 @@ include 'connection.php';
 echo '    <form action="editselectedkonyvl.php" method="post"> ';
 echo '<select name="konyvid">';
  
- $stid = oci_parse($conn, 'SELECT NEV FROM KONYV');
-	oci_execute($stid);
+ $stid = odbc_exec($conn, 'SELECT NEV FROM KONYV');
+	
  $szamlalo=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo "<option value=".$szamlalo.">".$item."</option>";
 		$szamlalo=$szamlalo+1;

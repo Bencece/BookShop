@@ -11,10 +11,10 @@ echo '    <form action="addalmufajql.php" method="post">
  
 echo '<td><select name="mufajid">';
  
- $stid = oci_parse($conn, 'SELECT NEV FROM MUFAJ');
-	oci_execute($stid);
+ $stid = odbc_exec($conn, 'SELECT NEV FROM MUFAJ');
+	
  $szamlalo=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo "<option value=".$szamlalo.">".$item."</option>";
 		$szamlalo=$szamlalo+1;

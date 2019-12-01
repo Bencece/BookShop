@@ -24,11 +24,11 @@ if($length==0){
 }
 	$nagyonnev="";
 if($nincsnev==false){
-	$stid = oci_parse($conn, 'SELECT FELHASZNALONEV FROM FELHASZNALO');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT FELHASZNALONEV FROM FELHASZNALO');
+	
 	$nagyonnev="";
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item==$felnev1){
 			$nagyonnev=$item;
@@ -45,9 +45,9 @@ if($nagyonnev==""){
 }else{
 	$jojelszo=false;
 $shajelszo=hash ( 'sha256' , ''.$jelszo1.'' , $raw_output = FALSE  );
-	$stid = oci_parse($conn, "SELECT FELHASZNALO_ID FROM FELHASZNALO WHERE FELHASZNALONEV='".$nagyonnev."' AND JELSZO='".$shajelszo."'");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT FELHASZNALO_ID FROM FELHASZNALO WHERE FELHASZNALONEV='".$nagyonnev."' AND JELSZO='".$shajelszo."'");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$jojelszo=true;
     }

@@ -21,8 +21,8 @@
 <?php
 include 'connection.php';
 
-$stid = oci_parse($conn, 'SELECT COUNT(*) FROM KONYV');
-	oci_execute($stid);
+$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM KONYV');
+	
 	
    
 echo '    <form action="addkonyvql.php" enctype="multipart/form-data" method="post"> 
@@ -48,10 +48,10 @@ echo '    <form action="addkonyvql.php" enctype="multipart/form-data" method="po
  
 echo '<td><select name="kiadoid">';
  
- $stid = oci_parse($conn, 'SELECT NEV FROM KONYVKIADO');
-	oci_execute($stid);
+ $stid = odbc_exec($conn, 'SELECT NEV FROM KONYVKIADO');
+	
  $szamlalo=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo "<option value=".$szamlalo.">".$item."</option>";
 		$szamlalo=$szamlalo+1;
@@ -66,10 +66,10 @@ echo '</select>
  
 echo '<td><select name="szerzoid">';
  
- $stid = oci_parse($conn, 'SELECT NEV FROM SZERZO');
-	oci_execute($stid);
+ $stid = odbc_exec($conn, 'SELECT NEV FROM SZERZO');
+	
  $szamlalo=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo "<option value=".$szamlalo.">".$item."</option>";
 		$szamlalo=$szamlalo+1;
@@ -87,10 +87,10 @@ echo '</select>
  
 echo '<td><select name="mufajid">';
  
- $stid = oci_parse($conn, 'SELECT NEV FROM MUFAJ');
-	oci_execute($stid);
+ $stid = odbc_exec($conn, 'SELECT NEV FROM MUFAJ');
+	
  $szamlalo=1;
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo "<option value=".$szamlalo.">".$item."</option>";
 		$szamlalo=$szamlalo+1;
@@ -109,9 +109,9 @@ echo '</select>
 echo '<td><select name="almufajid">';
  
  $szamlalo=1;
- $stid = oci_parse($conn, 'SELECT MUFAJ.NEV FROM MUFAJ,ALMUFAJ WHERE MUFAJ.MUFAJ_ID=ALMUFAJ.MUFAJ_ID');
-	oci_execute($stid);
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ $stid = odbc_exec($conn, 'SELECT MUFAJ.NEV FROM MUFAJ,ALMUFAJ WHERE MUFAJ.MUFAJ_ID=ALMUFAJ.MUFAJ_ID');
+	
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$asd[$szamlalo]=$item;
 		$szamlalo=$szamlalo+1;
@@ -121,12 +121,12 @@ echo '<td><select name="almufajid">';
  
  
  
- $stid = oci_parse($conn, 'SELECT NEV FROM ALMUFAJ');
-	oci_execute($stid);
+ $stid = odbc_exec($conn, 'SELECT NEV FROM ALMUFAJ');
+	
  $szamlalo=1;
  
  
- while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+ while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		
 		

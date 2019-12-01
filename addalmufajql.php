@@ -10,10 +10,10 @@ if($length==0){
 	echo 'Nem írtál be semmit!';
 }else{
 	
-	$stid = oci_parse($conn, 'SELECT NEV FROM ALMUFAJ');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT NEV FROM ALMUFAJ');
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item==$almufaj1){
 			$letezik=true;
@@ -22,10 +22,10 @@ if($length==0){
 }
 if($letezik){
 	
-	$stid = oci_parse($conn, "SELECT MUFAJ_ID FROM ALMUFAJ WHERE '".$almufaj1."'=NEV");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "SELECT MUFAJ_ID FROM ALMUFAJ WHERE '".$almufaj1."'=NEV");
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item<>$mufajid){
 			$letezik=false;
@@ -39,11 +39,11 @@ if($letezik){
 if(!$letezik){
 	
 	
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM ALMUFAJ');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM ALMUFAJ');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -52,8 +52,8 @@ if(!$letezik){
 	//AUTO_INCREMENT
 	
 	
-	$stid = oci_parse($conn, "INSERT INTO ALMUFAJ (ALMUFAJ_ID, MUFAJ_ID, NEV) VALUES (".$maxid.",".$mufajid." ,'".$almufaj1."')");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "INSERT INTO ALMUFAJ (ALMUFAJ_ID, MUFAJ_ID, NEV) VALUES (".$maxid.",".$mufajid." ,'".$almufaj1."')");
+	
 }else{
 	echo'Már létezik ilyen műfaj!';
 }

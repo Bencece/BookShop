@@ -9,10 +9,10 @@ if($length==0){
 	echo 'Nem írtál be semmit!';
 }else{
 	
-	$stid = oci_parse($conn, 'SELECT NEV FROM SZERZO');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT NEV FROM SZERZO');
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		if($item==$szerzo1){
 			$letezik=true;
@@ -22,11 +22,11 @@ if($length==0){
 if(!$letezik){
 	
 	
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM SZERZO');
-	oci_execute($stid);
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM SZERZO');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$maxid=$item;
     }
@@ -35,8 +35,8 @@ if(!$letezik){
 	//AUTO_INCREMENT
 	
 	
-	$stid = oci_parse($conn, "INSERT INTO SZERZO (SZERZO_ID, NEV) VALUES (".$maxid.", '".$szerzo1."')");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "INSERT INTO SZERZO (SZERZO_ID, NEV) VALUES (".$maxid.", '".$szerzo1."')");
+	
 }else{
 	echo'Már létezik ilyen szerző!';
 }
