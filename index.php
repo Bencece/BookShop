@@ -80,18 +80,18 @@
           <?php
 include 'connection.php';	
 	$osszkonyv;
-	$stid = oci_parse($conn, 'SELECT COUNT(*) FROM KONYV');
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, 'SELECT COUNT(*) FROM KONYV');
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$osszkonyv=$item;
     }
 	}
 	$osszkonyv=$osszkonyv-3;
-	$stid = oci_parse($conn, "SELECT KONYV_ID FROM KONYV WHERE KONYV_ID>'".$osszkonyv."'");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "SELECT KONYV_ID FROM KONYV WHERE KONYV_ID>'".$osszkonyv."'");
+	
 	$tmp=true;
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		echo '<div class="carousel-item';
 	   if($tmp==true){
@@ -121,9 +121,9 @@ include 'connection.php';
 	$szamlalo=1;
 	while($szamlalo<$mufajosszdarab){
 	
-	$stid = oci_parse($conn, "SELECT KONYV_ID FROM KONYV WHERE MUFAJ_ID='".$szamlalo."'");
-	oci_execute($stid);
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	$stid = odbc_exec($conn, "SELECT KONYV_ID FROM KONYV WHERE MUFAJ_ID='".$szamlalo."'");
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$egykonyv[$szamlalo]=$item;
     }
@@ -154,7 +154,7 @@ include 'connection.php';
 
 </div>
 <div class="jumbotron col-sm-10 text-center mx-auto" id="doboz">
-  <p>SZTE TTIK Adatbázis alapú rendszerek<br/>beadandó feladat<br/>Készítették:<br/>Jacsek Dániel István<br/>Kocsor Levente Ferenc<br/>Zahorán Bence</p>
+  <p>SZTE TTIK</p>
 </div>
 </body>
 </html>

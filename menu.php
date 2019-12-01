@@ -16,11 +16,11 @@ $mufajnevektomb;
 $mufajosszdarab;
 
 $szamlalo=1;
-$stid = oci_parse($conn, 'SELECT NEV FROM MUFAJ');
-	oci_execute($stid);
+$stid = odbc_exec($conn, 'SELECT NEV FROM MUFAJ');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$mufajnevektomb[$szamlalo]=$item;
 		$szamlalo=$szamlalo+1;
@@ -31,10 +31,10 @@ $mufajosszdarab=$szamlalo;
 $szamlalo=1;
 
 while($szamlalo<$mufajosszdarab){
-$stid = oci_parse($conn, "SELECT COUNT(*) FROM KONYV, MUFAJ WHERE KONYV.MUFAJ_ID=MUFAJ.MUFAJ_ID AND MUFAJ.NEV='".$mufajnevektomb[$szamlalo]."'");
-	oci_execute($stid);
+$stid = odbc_exec($conn, "SELECT COUNT(*) FROM KONYV, MUFAJ WHERE KONYV.MUFAJ_ID=MUFAJ.MUFAJ_ID AND MUFAJ.NEV='".$mufajnevektomb[$szamlalo]."'");
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$mufajdarab[$szamlalo]=$item;
     }
@@ -60,11 +60,11 @@ $szerzonevektomb;
 $szerzoosszdarab;
 
 $szamlalo=1;
-$stid = oci_parse($conn, 'SELECT NEV FROM SZERZO');
-	oci_execute($stid);
+$stid = odbc_exec($conn, 'SELECT NEV FROM SZERZO');
 	
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$szerzonevektomb[$szamlalo]=$item;
 		$szamlalo=$szamlalo+1;
@@ -75,10 +75,10 @@ $szerzoosszdarab=$szamlalo;
 $szamlalo=1;
 
 while($szamlalo<$szerzoosszdarab){
-$stid = oci_parse($conn, "SELECT COUNT(*) FROM KONYV, SZERZO WHERE KONYV.SZERZO_ID=SZERZO.SZERZO_ID AND SZERZO.NEV='".$szerzonevektomb[$szamlalo]."'");
-	oci_execute($stid);
+$stid = odbc_exec($conn, "SELECT COUNT(*) FROM KONYV, SZERZO WHERE KONYV.SZERZO_ID=SZERZO.SZERZO_ID AND SZERZO.NEV='".$szerzonevektomb[$szamlalo]."'");
 	
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$szerzodarab[$szamlalo]=$item;
     }
@@ -102,10 +102,10 @@ $stid = oci_parse($conn, "SELECT COUNT(*) FROM KONYV, SZERZO WHERE KONYV.SZERZO_
     echo '<li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#be" href="#">Bejelentkezés</a></li>';
 	echo '<li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#reg" href="#">Regisztráció</a></li>';
 	}else{
-	$stid = oci_parse($conn, "SELECT ADMINE FROM FELHASZNALO WHERE FELHASZNALONEV='".$_COOKIE["felhasznalo"]."'");
-	oci_execute($stid);
+	$stid = odbc_exec($conn, "SELECT ADMINE FROM FELHASZNALO WHERE FELHASZNALONEV='".$_COOKIE["felhasznalo"]."'");
+	
 	$admine=0;
-	while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+	while ( $row = odbc_fetch_array($stid)) {
     foreach ($row as $item) {
 		$admine=$item;
     }
