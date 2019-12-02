@@ -81,7 +81,7 @@ if($valaminemjo==false){
 $stid = odbc_exec($conn, "INSERT INTO felhasznalo (Felhasznalo_ID, Nev, Lakcim, Torzsvasarlo, Admine, Idaigvasarolt, Felhasznalonev, Jelszo, Email) VALUES
 (".$maxid.", '".$nev1."', '".$lcim1."', 0, 0, 0, '".$felnev1."', '".$shajelszo."', '".$email1."')");
 
-$siker=
+$siker=$stid;
 if($siker){
 	header ('Location: index.php?sikeresreg=true');
 }else{

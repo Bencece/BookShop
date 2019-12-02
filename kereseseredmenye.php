@@ -72,12 +72,12 @@ if(isset($_POST["mufaj"])){
 if(isset($_POST["ker"]) OR isset($_POST["mufaj"]) OR isset($_POST["szerzonev"])){
 
 
-$nfields = oci_num_fields($stid);
+$nfields = odbc_num_fields($stid);
 echo '<tr>';
 for ($i = 1; $i<=$nfields; $i++){
 	if($i==1){
 	}else{
-    $field = oci_field_name($stid, $i);
+    $field = odbc_field_name($stid, $i);
     echo '<td>' . $field . '</td>';
 	}
 	
@@ -111,12 +111,12 @@ echo '</table>';
 }else{
 
 
-$nfields = oci_num_fields($stid);
+$nfields = odbc_num_fields($stid);
 echo '<tr>';
 for ($i = 1; $i<=$nfields; $i++){
 	if($i==1){
 	}else{
-    $field = oci_field_name($stid, $i);
+    $field = odbc_field_name($stid, $i);
     echo '<td>' . $field . '</td>';
 	}
 	
