@@ -210,6 +210,8 @@ if(isset($_GET["kosar"]) && $_GET["kosar"]==true){
     </div>
   </div>
 </div>
-
+<?php
+odbc_close($conn);
+?>
 </body>
 </html>

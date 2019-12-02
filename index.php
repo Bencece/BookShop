@@ -157,4 +157,7 @@ include 'connection.php';
   <p>SZTE TTIK</p>
 </div>
 </body>
+<?php
+odbc_close($conn);
+?>
 </html>
