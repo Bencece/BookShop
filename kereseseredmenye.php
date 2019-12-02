@@ -53,20 +53,19 @@ if(isset($_POST["beirt2"])){
 
 if(isset($_POST["beirt"]) AND isset($_POST["ker"])){
 if($ker=="KIADAS" OR $ker=="NEV"){
-$stid = odbc_prepare($conn, "".$selecthumor."WHERE UPPER(KONYV.".$ker.") LIKE UPPER('%".$beirt."%') AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
+$stid = odbc_exec($conn, "".$selecthumor."WHERE UPPER(KONYV.".$ker.") LIKE UPPER('%".$beirt."%') AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
 }else if($ker=="SZERZO"){
 	if($beirt==""){
-		$beirt="Horváth Júlia";
+		$beirt="Horvath Julia";
 	}
-$stid = odbc_prepare($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID=(SELECT SZERZO_ID FROM SZERZO WHERE UPPER(NEV) LIKE UPPER('%".$beirt."%')) AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID");
+$stid = odbc_exec($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID=(SELECT SZERZO_ID FROM SZERZO WHERE UPPER(NEV) LIKE UPPER('%".$beirt."%')) AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID");
 }
 }
 if(isset($_POST["szerzonev"])){
-	echo $szerzonev;
-	$stid = odbc_prepare($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID='".$szerzonev."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
+	$stid = odbc_exec($conn, "".$selecthumor."WHERE KONYV.SZERZO_ID='".$szerzonev."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
 }
 if(isset($_POST["mufaj"])){
-	$stid = odbc_prepare($conn, "".$selecthumor."WHERE KONYV.MUFAJ_ID='".$mufaj."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
+	$stid = odbc_exec($conn, "".$selecthumor."WHERE KONYV.MUFAJ_ID='".$mufaj."' AND SZERZO.SZERZO_ID=KONYV.SZERZO_ID AND KONYVKIADO.KIADO_ID=KONYV.KIADO_ID AND MUFAJ.MUFAJ_ID=KONYV.MUFAJ_ID AND ALMUFAJ.ALMUFAJ_ID=KONYV.ALMUFAJ_ID");
 }
 
 
@@ -88,9 +87,9 @@ echo '</tr>';
 $szamlalo=1;
 $indexszamlalo=1;
 echo'<form action="konyvmegjelenites.php" method="post">';
-$stid = odbc_execute($stid);
+//$stid = odbc_execute($stid);
 echo $stid;
-while ( $row = odbc_fetch_array($stid)) {
+while ( $row = odbc_fetch_row($stid)) {
     echo '<tr>';
     foreach ($row as $item) {
 		if($szamlalo==1){

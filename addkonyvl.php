@@ -159,7 +159,7 @@ echo'
    
    ';
 
-oci_close($conn);
+odbc_close($conn);
 
 ?>
 </div>
